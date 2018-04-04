@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/project/src/main/.idea/modules/main.iml" filepath="$PROJECT_DIR$/project/src/main/.idea/modules/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project/src/main/.idea/modules/main-build.iml" filepath="$PROJECT_DIR$/project/src/main/.idea/modules/main-build.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/netflixrecommendationsystem.iml" filepath="$PROJECT_DIR$/.idea/modules/netflixrecommendationsystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/netflixrecommendationsystem-build.iml" filepath="$PROJECT_DIR$/.idea/modules/netflixrecommendationsystem-build.iml" />
     </modules>
