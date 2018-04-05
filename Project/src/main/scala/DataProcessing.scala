@@ -34,6 +34,10 @@ object DataProcessing {
     val file = new File("/Users/sonalichaudhari/Desktop/netflix-prize-data/qualifying1_processed.txt")
     val bw = new BufferedWriter(new FileWriter(file))
 
+    var app = ""
+    val filename = "/Users/sonalichaudhari/Desktop/netflix-prize-data/qualifying1.txt"
+
+    for (line <- Source.fromFile(filename).getLines){}
     //-----------------------
 
 
