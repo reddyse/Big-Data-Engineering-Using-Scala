@@ -36,7 +36,6 @@ object DataProcessing {
 
     var app = ""
     val filename = "/Users/sonalichaudhari/Desktop/netflix-prize-data/qualifying1.txt"
-
     for (line <- Source.fromFile(filename).getLines) {
       // app = line.toString()
       if (line.contains(":")) {
@@ -48,6 +47,8 @@ object DataProcessing {
         var entry = app+","+line
         bw.write(entry+"\n")
       }
+    }
+    bw.close()
 
       //-----------------------
 
