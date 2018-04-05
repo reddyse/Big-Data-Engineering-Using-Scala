@@ -37,8 +37,14 @@ object DataProcessing {
     var app = ""
     val filename = "/Users/sonalichaudhari/Desktop/netflix-prize-data/qualifying1.txt"
 
-    for (line <- Source.fromFile(filename).getLines){}
-    //-----------------------
+    for (line <- Source.fromFile(filename).getLines) {
+      // app = line.toString()
+      if (line.contains(":")) {
+        //        println("printing for movie with id "+line)
+        app = line.toString().stripSuffix(":")
+      }
+
+      //-----------------------
 
 
 
