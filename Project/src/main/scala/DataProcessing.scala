@@ -43,6 +43,11 @@ object DataProcessing {
         //        println("printing for movie with id "+line)
         app = line.toString().stripSuffix(":")
       }
+      else {
+        println(app + "," + line)
+        var entry = app+","+line
+        bw.write(entry+"\n")
+      }
 
       //-----------------------
 
