@@ -27,27 +27,34 @@ object DataProcessing {
     val time = format.parse("2003-01-16").getTime()
 
 
+
+    val f1 = "/Users/sonalichaudhari/Desktop/Data/combined_data_1.txt"
+    val f2 = "/Users/sonalichaudhari/Desktop/Data/combined_data_2.txt"
+    val f3 = "/Users/sonalichaudhari/Desktop/Data/combined_data_3.txt"
+    val f4 = "/Users/sonalichaudhari/Desktop/Data/combined_data_4.txt"
+
 //    val part0 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_1.txt").getLines
 //    val part1 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_2.txt").getLines
 //    val part2 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_3.txt").getLines
 //    val part3 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_4.txt").getLines
-//
-//    val part = part0.toList ++ part1.toList ++ part2.toList ++ part3.toList
-//    part.foreach(println)
 
-//    val file = new File("/Users/sonalichaudhari/Desktop/Data/after/train_data.txt")
-//    val bw = new BufferedWriter(new FileWriter(file))
-//
-//    part.foreach(p => bw.write(p + "\n"))
+//    val part = part0.toList ++ part1.toList //++ part2.toList ++ part3.toList
+//    val add = part0.toList ++ part1.toList
+//    part0.foreach(println)
 
-    val NtflixRecosFile = "/Users/sonalichaudhari/Desktop/netflix-prize-data/" // Should be some file on your system
-    val path = "/Users/sonalichaudhari/Desktop/netflix-prize-data/untitled/"
-
-    // Processing the file in the right format
-    val file = new File("/Users/sonalichaudhari/Desktop/netflix-prize-data/untitled/combined_data_1processed.txt")
+    val file = new File("/Users/sonalichaudhari/Desktop/Data/after/t4.csv")
     val bw = new BufferedWriter(new FileWriter(file))
+
+//    part0.foreach(p => bw.write(p + "\n"))
+
+//    val NtflixRecosFile = "/Users/sonalichaudhari/Desktop/netflix-prize-data/" // Should be some file on your system
+//    val path = "/Users/sonalichaudhari/Desktop/netflix-prize-data/untitled/"
+//
+//    // Processing the file in the right format
+//    val file = new File("/Users/sonalichaudhari/Desktop/netflix-prize-data/untitled/combined_data_1processed.txt")
+//    val bw = new BufferedWriter(new FileWriter(file))
     var app = ""
-    val filename = "/Users/sonalichaudhari/Desktop/netflix-prize-data/combined_data_1.txt"
+    val filename = "/Users/sonalichaudhari/Desktop/Data/combined_data_4.txt"
     for (line <- Source.fromFile(filename).getLines) {
 
       if (line.contains(":")) {
@@ -61,14 +68,14 @@ object DataProcessing {
     }
     bw.close()
 //
-
-    //Training data
-    val ratings = sc.textFile(new File(path, "combined_data_1processed.txt").toString).map { line =>
-      val fields = line.split(",") // format: (timestamp % 10, Rating(userId, movieId, rating))
-      (format.parse(fields(3)).getTime().toLong % 10, Rating(fields(1).toInt, fields(0).toInt, fields(2).toDouble))
-    }
-    val llist = ratings.collect()
-    llist.foreach(println)
+//
+//    //Training data
+//    val ratings = sc.textFile(new File(path, "combined_data_1processed.txt").toString).map { line =>
+//      val fields = line.split(",") // format: (timestamp % 10, Rating(userId, movieId, rating))
+//      (format.parse(fields(3)).getTime().toLong % 10, Rating(fields(1).toInt, fields(0).toInt, fields(2).toDouble))
+//    }
+//    val llist = ratings.collect()
+//    llist.foreach(println)
 
     // Movie data
 //    val textRDD = sc.textFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/movie_titles.csv")
