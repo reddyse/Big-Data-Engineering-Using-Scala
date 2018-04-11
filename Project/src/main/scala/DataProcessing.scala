@@ -27,6 +27,19 @@ object DataProcessing {
     val time = format.parse("2003-01-16").getTime()
 
 
+//    val part0 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_1.txt").getLines
+//    val part1 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_2.txt").getLines
+//    val part2 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_3.txt").getLines
+//    val part3 = Source.fromFile("/Users/sonalichaudhari/Desktop/Data/combined_data_4.txt").getLines
+//
+//    val part = part0.toList ++ part1.toList ++ part2.toList ++ part3.toList
+//    part.foreach(println)
+
+//    val file = new File("/Users/sonalichaudhari/Desktop/Data/after/train_data.txt")
+//    val bw = new BufferedWriter(new FileWriter(file))
+//
+//    part.foreach(p => bw.write(p + "\n"))
+
     val NtflixRecosFile = "/Users/sonalichaudhari/Desktop/netflix-prize-data/" // Should be some file on your system
     val path = "/Users/sonalichaudhari/Desktop/netflix-prize-data/untitled/"
 
@@ -47,70 +60,71 @@ object DataProcessing {
       }
     }
     bw.close()
-
+//
 
     //Training data
     val ratings = sc.textFile(new File(path, "combined_data_1processed.txt").toString).map { line =>
       val fields = line.split(",") // format: (timestamp % 10, Rating(userId, movieId, rating))
       (format.parse(fields(3)).getTime().toLong % 10, Rating(fields(1).toInt, fields(0).toInt, fields(2).toDouble))
     }
-    //val llist = ratings.collect() llist.foreach(println)
+    val llist = ratings.collect()
+    llist.foreach(println)
 
     // Movie data
-    val textRDD = sc.textFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/movie_titles.csv")
-    //println(textRDD.foreach(println)
-    val empRdd = textRDD.map {
-      line => val col = line.split(",")
-    }
-    //val llist = textRDD.collect()
-    //llist.foreach(println)
-
-    // Personalized Rating
-    def loadRatings(path: String): Seq[Rating] = {
-      val lines = Source.fromFile(path).getLines()
-      val ratings = lines.map { line =>
-        val fields = line.split(",")
-        Rating(fields(0).toInt, fields(1).toInt, fields(2).toDouble)
-      }.filter(_.rating > 0.0)
-      if (ratings.isEmpty) {
-        sys.error("No ratings provided.")
-      } else {
-        ratings.toSeq
-      }
-    }
-
-    val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/netflix-prize-data/PersonalRatingsLatest.txt")
-    val myRatingsRDD = sc.parallelize(myRatings, 1)
-
-    myRatingsRDD.collect().foreach(println)
-
-    val numRatings = ratings.count()
-    val numUsers = ratings.map(_._2.user).distinct().count()
-    val numMovies = ratings.map(_._2.product).distinct().count()
-
-    println("Got " + numRatings + " ratings from " + numUsers + " users on " + numMovies + " movies.")
-
-    val numPartitions = 4
-    val training = ratings.filter(x => x._1 < 3)
-      .values
-      .union(myRatingsRDD)
-      .repartition(numPartitions)
-      .cache()
-    val validation = ratings.filter(x => x._1 >= 3 && x._1 < 8)
-      .values
-      .repartition(numPartitions)
-      .cache()
-    val test = ratings.filter(x => x._1 >= 8).values.cache()
-
-    val numTraining = training.count()
-    val numValidation = validation.count()
-    val numTest = test.count()
-
-    println("Training: " + numTraining + ", validation: " + numValidation + ", test: " + numTest)
-
-      val ranks = List(8, 12)
-      val lambdas = List(0.1, 10.0)
-      val numIters = List(10, 20)
+//    val textRDD = sc.textFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/movie_titles.csv")
+//    //println(textRDD.foreach(println)
+//    val empRdd = textRDD.map {
+//      line => val col = line.split(",")
+//    }
+//    //val llist = textRDD.collect()
+//    //llist.foreach(println)
+//
+//    // Personalized Rating
+//    def loadRatings(path: String): Seq[Rating] = {
+//      val lines = Source.fromFile(path).getLines()
+//      val ratings = lines.map { line =>
+//        val fields = line.split(",")
+//        Rating(fields(0).toInt, fields(1).toInt, fields(2).toDouble)
+//      }.filter(_.rating > 0.0)
+//      if (ratings.isEmpty) {
+//        sys.error("No ratings provided.")
+//      } else {
+//        ratings.toSeq
+//      }
+//    }
+//
+//    val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/netflix-prize-data/PersonalRatingsLatest.txt")
+//    val myRatingsRDD = sc.parallelize(myRatings, 1)
+//
+//    myRatingsRDD.collect().foreach(println)
+//
+//    val numRatings = ratings.count()
+//    val numUsers = ratings.map(_._2.user).distinct().count()
+//    val numMovies = ratings.map(_._2.product).distinct().count()
+//
+//    println("Got " + numRatings + " ratings from " + numUsers + " users on " + numMovies + " movies.")
+//
+//    val numPartitions = 4
+//    val training = ratings.filter(x => x._1 < 3)
+//      .values
+//      .union(myRatingsRDD)
+//      .repartition(numPartitions)
+//      .cache()
+//    val validation = ratings.filter(x => x._1 >= 3 && x._1 < 8)
+//      .values
+//      .repartition(numPartitions)
+//      .cache()
+//    val test = ratings.filter(x => x._1 >= 8).values.cache()
+//
+//    val numTraining = training.count()
+//    val numValidation = validation.count()
+//    val numTest = test.count()
+//
+//    println("Training: " + numTraining + ", validation: " + numValidation + ", test: " + numTest)
+//
+//      val ranks = List(8, 12)
+//      val lambdas = List(0.1, 10.0)
+//      val numIters = List(10, 20)
 //    var bestModel: Option[MatrixFactorizationModel] = None
 //    var bestValidationRmse = Double.MaxValue
 //    var bestRank = 0
@@ -118,8 +132,8 @@ object DataProcessing {
 //    var bestNumIter = -1
 //
 //
-      for (rank <- ranks; lambda <- lambdas; numIter <- numIters) {
-      val model = ALS.train(training, rank, numIter, lambda)
+//      for (rank <- ranks; lambda <- lambdas; numIter <- numIters) {
+//      val model = ALS.train(training, rank, numIter, lambda)
 //      val validationRmse = computeRmse(model, validation, numValidation)
 //      println("RMSE (validation) = " + validationRmse + " for the model trained with rank = "
 //        + rank + ", lambda = " + lambda + ", and numIter = " + numIter + ".")
@@ -130,7 +144,7 @@ object DataProcessing {
 //        bestLambda = lambda
 //        bestNumIter = numIter
 //      }
-    }
+  //  }
 //    println("The End")
 //
 //
