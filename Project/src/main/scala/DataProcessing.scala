@@ -53,26 +53,12 @@ object DataProcessing {
 
 
 
-//    var app = ""
-//    for (line <- Source.fromFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/train/combined_data_1.txt").getLines) {
-//      // app = line.toString()
-//      if (line.contains(":")) {
-//        //        println("printing for movie with id "+line)
-//        app = line.toString().stripSuffix(":")
-//      }
-//      else {
-////        println(app + "," + line)
-//        var entry = app+","+line
-//        bw.write(entry+"\n")
-//      }
-//    }
-//    bw.close()
 
-    //data.coalesce(1).saveAsTextFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/data.txt")
-   // val data = sc.textFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/train/*csv")
-    //
-    //    val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/netflix-prize-data/PersonalRatingsLatest.txt")
-    //    val myRatingsRDD = sc.parallelize(myRatings, 1)
+    data.coalesce(1).saveAsTextFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/data.txt")
+    val data = sc.textFile("/Users/sonalichaudhari/Desktop/netflix-prize-data/train/*csv")
+
+        val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/netflix-prize-data/PersonalRatingsLatest.txt")
+        val myRatingsRDD = sc.parallelize(myRatings, 1)
     //
 
     //
