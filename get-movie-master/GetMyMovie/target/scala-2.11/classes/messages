@@ -1,0 +1,9 @@
+
+movie.success.movieList=Getting Movie list successfully.
+movie.success.movie=Getting Movie successfully.
+movie.error.movieNotExist=Movie does not exist.
+
+movie.success.created=Movie has been created successfully.
+movie.success.updated=Movie has been updated successfully.
+movie.success.deleted=Movie has been deleted successfully.
+movie.success.selected=Movie has been selected successfully.

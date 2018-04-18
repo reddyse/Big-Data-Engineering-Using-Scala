@@ -1,0 +1,10 @@
+New log file opened at Wed Apr 18 17:22:18 EDT 2018 by 12004@Praneeths-MacBook-Pro.local
+Taking next connection to: 63360
+New client attempting to connect on port: 63361-63360
+  Address = /10.110.147.34:63360
+This client on port 63361 has uuid ffa35688-36b3-4ad7-a842-50cee4e10871 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-ffa35688-36b3-4ad7-a842-50cee4e10871
+Taking next connection to: 63360
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 63360
