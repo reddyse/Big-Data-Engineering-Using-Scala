@@ -6,148 +6,149 @@ import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkContext._
 import org.apache.spark.rdd._
-import org.apache.spark.mllib.recommendation.{ALS, Rating, MatrixFactorizationModel}
-
+import org.apache.spark.mllib.recommendation.{ALS, MatrixFactorizationModel, Rating}
 import java.io.{BufferedWriter, FileWriter}
+
+
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 import au.com.bytecode.opencsv.CSVWriter
 import java.text.SimpleDateFormat
 
+
 object DataProcessing {
+
 
   def main(args: Array[String]) {
     val conf = new SparkConf().setAppName("Simple Application").setMaster("local[*]")
     val sc = new SparkContext(conf)
 
-    // Loading an users personal ratings
-    val path = "/Users/sonalichaudhari/Desktop/Project/PersonalRatingsLatest.txt"
-    val myRatings = loadRatings(path)
-    val myRatingsRDD = sc.parallelize(myRatings, 1)
-
-
-
-    // To get timestamp from dates given
+    //format.parse(fields(3)).getTime(),
+    //    To get timestamp from dates given
     val format = new java.text.SimpleDateFormat("yyyy-dd-mm")
     val time = format.parse("2003-01-16").getTime()
 
-    // Loading the Netflix combined data
-    val ratings = sc.textFile(new File("/Users/sonalichaudhari/Desktop/Project/sample.txt").toString).map { line =>
+    val file = new File("/Users/sonalichaudhari/Desktop/netflix-prize-data/data/combined_3.csv")
+    val bw = new BufferedWriter(new FileWriter(file))
+    bw.write("movieId,userId,rating,timestamp" + "\n")
+    var app = ""
+    val filename = "/Users/sonalichaudhari/Desktop/netflix-prize-data/combined_data_3.txt"
+    for (line <- Source.fromFile(filename).getLines) {
+
+      if (line.contains(":")) {
+        app = line.toString().stripSuffix(":")
+      }
+      else {
+        //           println(app + "," + line)
+        var entry = app + "," + line
+        bw.write(entry + "\n")
+      }
+    }
+    bw.close()
+
+
+
+
+    // load ratings and movie titles
+
+    val ratings = sc.textFile(new File("/Users/sonalichaudhari/Desktop/DataFinal/Train2.txt").toString).map { line =>
       val fields = line.split(",")
       // format: (timestamp % 10, Rating(userId, movieId, rating))
-      (fields(1).toInt, fields(0).toInt, fields(2).toDouble,format.parse(fields(3)).getTime().toLong)
-      //(format.parse(fields(3)).getTime().toLong,Rating(fields(1).toInt, fields(0).toInt, fields(2).toDouble))
+      (format.parse(fields(3)).getTime(), Rating(fields(1).toInt, fields(0).toInt, fields(2).toDouble))
     }
-    
-    // Loading the Movie details details
-    val movies = sc.textFile(new File( "movie_titles.csv").toString).map { line =>
+
+    //    ratings.collect().foreach(println)
+    val movies = sc.textFile(new File("/Users/sonalichaudhari/Desktop/DataFinal/movie_titles.txt").toString).map { line =>
       val fields = line.split(",")
       // format: (movieId, movieName)
       (fields(0).toInt, fields(2))
     }.collect().toMap
 
-    // Calcualting the number of unique users,movies and the count of ratings
-    val numRatings = ratings.count()
-    val numUsers = ratings.map(_._2.user).distinct().count()
-    val numMovies = ratings.map(_._2.product).distinct().count()
 
-    println("Got " + numRatings + " ratings from "+ numUsers + " users on " + numMovies + " movies.")
+    val topmovie = Array("Pirates of the Caribbean: The Curse of the Black Pearl", "Forrest Gump", "Independence Day",
+    "Gone in 60 Seconds","Pretty Woman","The Godfather","Miss Congeniality","The Patriot","Twister","The Day After Tomorrow")
+
+    val topmovieid = Array(1,3,45,60,196,32,8,55,32,42)
+    val abc = (topmovie zip topmovieid)map {
+      case (x, y) => (x, y)
+    };
+    val RW = new BufferedWriter(new FileWriter("/Users/sonalichaudhari/Desktop/Project/PersonalRatingsLatest.txt"))
+    for ( i <- 0 to (topmovie.length - 1)) {
+      println(s"${topmovie(i)}: ")
+      var success = false
+      var rating = 0d
+
+      while(!success) {
+        try {
+          rating = readDouble()
+          success = true
+        } catch {
+          case exception: Any => {println(s"Wrong input, please rate ${topmovie(i)}:")}
+        }
+      }
+      RW.write("0::"+topmovieid(i)+"::"+rating+"::1400000000"+"\n")
+//    println(topmovie(i)+" "+topmovieid(i)+" "+rating)
+    }
+    RW.close()
+
+
+
+//    val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/netflix-prize-data/personal.txt")
+    val myRatings = loadRatings("/Users/sonalichaudhari/Desktop/Project/PersonalRatingsLatest1.txt")
+    val myRatingsRDD = sc.parallelize(myRatings, 1)
+
+    myRatingsRDD.collect().foreach(println)
 
     val numPartitions = 4
-    val training = ratings.filter(x => x._2.product < 6)
+    val training = ratings.filter(x => x._2.user >= 77)
       .values
       .union(myRatingsRDD)
       .repartition(numPartitions)
       .cache()
-    val validation = ratings.filter(x => x._2.product >= 6 && x._2.product < 8)
-      .values
-      .repartition(numPartitions)
-      .cache()
-    val test = ratings.filter(x => x._2.product >= 8).values.cache()
+    val test = ratings.filter(x => x._2.user < 777).values.cache()
 
-    training.collect().foreach(println)
-    print("Sonali")
     val numTraining = training.count()
-    val numValidation = validation.count()
     val numTest = test.count()
 
-    println("Training: " + numTraining + ", validation: " + numValidation + ", test: " + numTest)
+    println("Training: " + numTraining + ", test: " + numTest)
 
+    val model = ALS.train(training, 8, 25, 10)
+    val predictions = model.predict(test.map(x => (x.user, x.product)))
 
-    val ranks = List(8, 12)
-    val lambdas = List(0.1, 10.0)
-    val numIters = List(10, 20)
-    var bestModel: Option[MatrixFactorizationModel] = None
-    var bestValidationRmse = Double.MaxValue
-    var bestRank = 0
-    var bestLambda = -1.0
-    var bestNumIter = -1
-
-
-    for (rank <- ranks; lambda <- lambdas; numIter <- numIters) {
-      val model = ALS.train(training, rank, numIter, lambda)
-      val validationRmse = computeRmse(model, validation, numValidation)
-      println("RMSE (validation) = " + validationRmse + " for the model trained with rank = "
-        + rank + ", lambda = " + lambda + ", and numIter = " + numIter + ".")
-
-      if (validationRmse < bestValidationRmse) {
-        bestModel = Some(model)
-        bestValidationRmse = validationRmse
-        bestRank = rank
-        bestLambda = lambda
-        bestNumIter = numIter
-      }
-    }
-
-    val testRmse = computeRmse(bestModel.get, test, numTest)
-
-    println("The best model was trained with rank = " + bestRank + " and lambda = " + bestLambda
-      + ", and numIter = " + bestNumIter + ", and its RMSE on the test set is " + testRmse + ".")
-
-    // create a naive baseline and compare it with the best model
-
-    val meanRating = training.union(validation).map(_.rating).mean
-    val baselineRmse = math.sqrt(test.map(x => (meanRating - x.rating) * (meanRating - x.rating)).mean)
-    val improvement = (baselineRmse - testRmse) / baselineRmse * 100
-    println("The best model improves the baseline by " + "%1.2f".format(improvement) + "%.")
-
-    // make personalized recommendations
-
-    val myRatedMovieIds = myRatings.map(_.product).toSet
-
-    val candidates = sc.parallelize(movies.keys.filter(!myRatedMovieIds.contains(_)).toSeq)
-    val recommendations = bestModel.get
-      .predict(candidates.map((0, _)))
-      .collect()
-      .sortBy(- _.rating)
-      .take(50)
-
-    var i = 1
-    println("Movies recommended for you:")
-    recommendations.foreach { r =>
-      println("%2d".format(i) + ": " + movies(r.product))
-      i += 1
-    }
-    sc.stop()
-  }
-
-  /** Compute RMSE (Root Mean Squared Error). */
-  def computeRmse(model: MatrixFactorizationModel, data: RDD[Rating], n: Long): Double = {
-    val predictions: RDD[Rating] = model.predict(data.map(x => (x.user, x.product)))
-
-    data.collect().foreach(println)
-    print("---------------------")
     predictions.collect().foreach(println)
 
-    val predictionsAndRatings = predictions.map(x => ((x.user, x.product), x.rating)).join(data.map(x => ((x.user, x.product),x.rating))).values
-    println(predictionsAndRatings)
+    val predictionsAndRatings = predictions.map(x => ((x.user, x.product), x.rating))
+      .join[Double](test.map(x => ((x.user, x.product), x.rating))).values
+
     predictionsAndRatings.collect().foreach(println)
+    println(math.sqrt(predictionsAndRatings.map(x => (x._1 - x._2) * (x._1 - x._2)).reduce(_ + _) / numTest))
 
-    math.sqrt(predictionsAndRatings.map(x => (x._1 - x._2) * (x._1 - x._2)).reduce(_ + _) / n)
+    val recommendations = model.recommendProducts(0, 10)
+    var i = 1
+    println("Movies recommended for you, based on your previous ratings:")
+    recommendations.foreach { recommendation =>
+      println(s"#$i: ${movies.get(recommendation.product).get} (expecting a rating of ${recommendation.rating})")
+      i += 1
+    }
+
+
+    //    val predictedRates =
+    //          model.predict(test.map { case Rating(user,item,rating) => (user,item)} ).map { case Rating(user, product, rate) =>
+    //            ((user, product), rate)
+    //          }.persist()
+    //
+    //        val ratesAndPreds = test.map { case Rating(user, product, rate) =>
+    //          ((user, product), rate)
+    //        }.join(predictedRates)
+    //
+    //        val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) => Math.pow((r1 - r2), 2) }.mean()
+    //        val rmse = math.sqrt(MSE)
+
+
+    // clean up
+    sc.stop()
   }
-
-  /** Load ratings from file. */
   def loadRatings(path: String): Seq[Rating] = {
     val lines = Source.fromFile(path).getLines()
     val ratings = lines.map { line =>
@@ -160,4 +161,8 @@ object DataProcessing {
       ratings.toSeq
     }
   }
+
+
 }
+
+
