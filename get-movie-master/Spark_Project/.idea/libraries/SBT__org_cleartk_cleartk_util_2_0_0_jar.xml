@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.cleartk:cleartk-util:2.0.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.cleartk/cleartk-util/jars/cleartk-util-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.cleartk/cleartk-util/srcs/cleartk-util-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

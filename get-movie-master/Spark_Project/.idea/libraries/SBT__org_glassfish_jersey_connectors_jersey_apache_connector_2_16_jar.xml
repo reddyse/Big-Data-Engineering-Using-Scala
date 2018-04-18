@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.glassfish.jersey.connectors:jersey-apache-connector:2.16:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.glassfish.jersey.connectors/jersey-apache-connector/jars/jersey-apache-connector-2.16.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.glassfish.jersey.connectors/jersey-apache-connector/srcs/jersey-apache-connector-2.16-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

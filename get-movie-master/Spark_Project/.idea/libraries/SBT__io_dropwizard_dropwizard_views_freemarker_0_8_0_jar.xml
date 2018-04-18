@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: io.dropwizard:dropwizard-views-freemarker:0.8.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.dropwizard/dropwizard-views-freemarker/jars/dropwizard-views-freemarker-0.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.dropwizard/dropwizard-views-freemarker/srcs/dropwizard-views-freemarker-0.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

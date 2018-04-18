@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.cleartk:cleartk-snowball:2.0.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.cleartk/cleartk-snowball/jars/cleartk-snowball-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.cleartk/cleartk-snowball/srcs/cleartk-snowball-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: io.dropwizard.metrics:metrics-annotation:3.1.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.dropwizard.metrics/metrics-annotation/bundles/metrics-annotation-3.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.dropwizard.metrics/metrics-annotation/srcs/metrics-annotation-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.jcodec:jcodec:0.1.5:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.jcodec/jcodec/jars/jcodec-0.1.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.jcodec/jcodec/srcs/jcodec-0.1.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

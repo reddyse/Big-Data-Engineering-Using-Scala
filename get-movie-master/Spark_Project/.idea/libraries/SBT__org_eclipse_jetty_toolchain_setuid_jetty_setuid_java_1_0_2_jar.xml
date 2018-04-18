@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: org.eclipse.jetty.toolchain.setuid:jetty-setuid-java:1.0.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty.toolchain.setuid/jetty-setuid-java/jars/jetty-setuid-java-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.eclipse.jetty.toolchain.setuid/jetty-setuid-java/srcs/jetty-setuid-java-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

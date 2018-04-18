@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/get-movie-master.iml" filepath="$PROJECT_DIR$/.idea/get-movie-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/get-movie-master-build.iml" filepath="$PROJECT_DIR$/.idea/modules/get-movie-master-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GetMovie/.idea/modules/root.iml" filepath="$PROJECT_DIR$/GetMovie/.idea/modules/root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GetMovie/.idea/modules/root-build.iml" filepath="$PROJECT_DIR$/GetMovie/.idea/modules/root-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark_Project/.idea/modules/spark_project.iml" filepath="$PROJECT_DIR$/Spark_Project/.idea/modules/spark_project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark_Project/.idea/modules/spark_project-build.iml" filepath="$PROJECT_DIR$/Spark_Project/.idea/modules/spark_project-build.iml" />
+    </modules>
+  </component>
+</project>
