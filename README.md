@@ -26,13 +26,9 @@ The project makes used of machine learning algorithm to build movie recommendati
 #### Course - CSYE7200 34322 Big-Data Sys Engr Using Scala SEC 01 - Spring 2018
 
 #### Principal Investigator
-
 Prof. Robin Hillyard
-
 #### Teaching Assistant
-
 Yuan Ying
-
 #### Team Members
 
 - Sonali Chaudhari(001285029)
@@ -41,8 +37,3 @@ Yuan Ying
 #### Geographic Details
 
 Northeastern University, Boston, MA - 02115
-
-
-```python
-
-```
